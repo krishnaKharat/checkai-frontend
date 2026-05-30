@@ -280,6 +280,23 @@ footer{padding:36px 44px;border-top:1px solid var(--border);background:var(--bg)
 .coming-soon-tag{display:inline-flex;align-items:center;border-radius:100px;border:1px solid var(--ab);background:var(--ad);color:var(--amber);font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px}
 .txta{width:100%;flex:1;resize:none;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:15px;font-family:var(--f);font-size:14px;color:var(--fg);outline:none;min-height:240px;transition:.18s;line-height:1.6}
 .txta:focus{border-color:var(--tb)}
+.news-input-panel{display:flex;flex-direction:column;gap:10px}
+.news-source{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:12px 14px;font-family:var(--f);font-size:13px;color:var(--fg);outline:none}
+.news-source:focus{border-color:var(--tb)}
+.news-result{display:flex;flex-direction:column;gap:12px}
+.news-score-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.news-stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px}
+.news-stat b{display:block;font-size:18px;color:var(--teal);margin-bottom:3px}
+.news-stat span{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:.07em}
+.news-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:13px 14px}
+.news-block h4{font-size:12px;color:var(--fg);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em}
+.news-block p,.news-block li{font-size:12px;color:var(--fg2);line-height:1.6}
+.news-block ul{padding-left:16px}
+.news-source-item{border-top:1px solid var(--border);padding-top:9px;margin-top:9px}
+.news-source-item:first-of-type{border-top:none;padding-top:0;margin-top:0}
+.news-actions{display:flex;gap:8px;flex-wrap:wrap}
+.news-action-btn{border:1px solid var(--tb);background:var(--td);color:var(--teal);border-radius:8px;padding:8px 12px;font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer}
+@media(max-width:640px){.news-score-row{grid-template-columns:1fr}}
 .txta::placeholder{color:var(--fg3)}
 .charcnt{font-family:var(--fm);font-size:11px;color:var(--fg3);text-align:right}
 .scanbtn{width:100%;padding:14px;background:var(--teal);color:#000;font-family:var(--f);font-size:15px;font-weight:800;border:none;border-radius:10px;cursor:pointer;transition:.2s;letter-spacing:-.01em;margin-top:4px}
@@ -613,7 +630,7 @@ footer{padding:36px 44px;border-top:1px solid var(--border);background:var(--bg)
             <div class="prevbar media-preview" id="pv-vid"><video class="prev-video" id="pv-vid-thumb" controls muted playsinline></video><div class="media-meta"><div style="flex:1"><div class="prev-name" id="pv-vid-name"></div><div class="prev-size" id="pv-vid-size"></div></div><button class="prev-rm" onclick="clrFile('vid')">&times;</button></div></div>
           </div>
           <div id="in-doc" style="display:none;position:relative"><div class="coming-soon-panel"><span class="coming-soon-tag">Coming Soon</span><h3>Document Detection</h3><p>Document analysis is being prepared and will be available soon.</p></div></div>
-          <div id="in-news" style="display:none;position:relative"><div class="coming-soon-panel"><span class="coming-soon-tag">Coming Soon</span><h3>News Detection</h3><p>News authenticity and misinformation detection is coming soon.</p></div></div>
+          <div id="in-news" style="display:none;position:relative"><div class="news-input-panel"><textarea class="txta" id="news-text" placeholder="Paste a headline, article, claim, WhatsApp forward, tweet, or social media post to verify..." maxlength="12000"></textarea><input class="news-source" id="news-url" type="url" placeholder="Optional source URL or publisher domain"><div class="charcnt"><span id="news-charcnt">0</span>/12000</div></div></div>
           <div id="in-txt" style="display:none;flex-direction:column;gap:7px">
             <textarea class="txta" id="txta" placeholder="Paste any text here — emails, articles, messages, documents — to check if it was written by AI…" maxlength="10000"></textarea>
             <div class="charcnt"><span id="charcnt">0</span>/10000</div>
@@ -1096,7 +1113,7 @@ function setType(t) {
   ['img','vid','doc','news','txt','aud'].forEach(x => {
     document.getElementById('tab-' + x)?.classList.toggle('on', x === t);
     const inp = document.getElementById('in-' + x);
-    if (inp) inp.style.display = (x === t) ? (x === 'txt' ? 'flex' : 'block') : 'none';
+    if (inp) inp.style.display = (x === t) ? ((x === 'txt' || x === 'news') ? 'flex' : 'block') : 'none';
   });
   document.getElementById('scanbtn').disabled = true;
   resetResult();
@@ -1165,6 +1182,11 @@ function initFileInputs() {
     document.getElementById('charcnt').textContent = this.value.length;
     document.getElementById('scanbtn').disabled = this.value.trim().length < 1;
   });
+  const newsText = document.getElementById('news-text');
+  if (newsText) newsText.addEventListener('input', function() {
+    document.getElementById('news-charcnt').textContent = this.value.length;
+    document.getElementById('scanbtn').disabled = this.value.trim().length < 8;
+  });
 }
 
 function setupDrop(type, onFile) {
@@ -1189,8 +1211,14 @@ async function runScan() {
   try {
     const token = await getToken();
     let result;
-    if (['doc','news'].includes(CURTYPE)) { toast('Coming soon.', 'warn'); setState('idle'); btn.disabled = true; return; }
-    if (CURTYPE === 'txt') {
+    if (CURTYPE === 'doc') { toast('Document detection is coming soon.', 'warn'); setState('idle'); btn.disabled = true; return; }
+    if (CURTYPE === 'news') {
+      const text = document.getElementById('news-text').value.trim();
+      const sourceUrl = document.getElementById('news-url').value.trim();
+      if (text.length < 8) { toast('Please enter a news claim to verify.', 'err'); setState('idle'); btn.disabled = false; return; }
+      setSpinMsg('Checking fact-check databases and credibility signals...');
+      result = await callAnalyzeNewsAPI(text, sourceUrl, token);
+    } else if (CURTYPE === 'txt') {
       const text = document.getElementById('txta').value.trim();
       if (!text || text.length < 1) { toast('Please enter some text to analyze.', 'err'); setState('idle'); btn.disabled = false; return; }
       setSpinMsg('Sending to AI detection engine…');
@@ -1241,6 +1269,25 @@ async function callAnalyzeAPI(params, file, token, filename) {
   return json;
 }
 
+
+async function callAnalyzeNewsAPI(text, sourceUrl, token) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  const res = await fetch(CFG.API_BASE + '/api/analyze/news', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ text, sourceUrl }),
+    signal: AbortSignal.timeout(60000)
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const err = new Error(json.error || `Server error: ${res.status}`);
+    err.userMessage = sanitizeError(json.error || `Server error: ${res.status}`);
+    err.limitReached = json.limitReached || false;
+    throw err;
+  }
+  return json;
+}
 async function callAnalyzeAPIEndpoint(endpoint, fieldName, file, token) {
   const fd = new FormData();
   fd.append(fieldName, file, file.name || fieldName);
@@ -1291,6 +1338,7 @@ function buildSignalsFromEndpoint(json) {
 
 /* ══ TRUTH METER™ — VERDICT DISPLAY ══ */
 function showVerdict(result) {
+  if (result?.type === 'news') { showNewsVerdict(result); return; }
   const { confidence, verdict, isAI, signals, processingMs } = result;
   const score = confidence;
 
