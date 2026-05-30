@@ -1,10 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Check AI — Is it Real? Find Out Now.</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Syne+Mono:wght@400&display=swap" rel="stylesheet">
 <script>try{if(localStorage.getItem('cai_theme')==='dark')document.documentElement.classList.add('dark');}catch(e){}</script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
@@ -21,7 +20,7 @@ html{scroll-behavior:smooth}
   --amber:#c87800;--ad:rgba(200,120,0,.07);--ab:rgba(200,120,0,.2);
   --blue:#1a5fd4;--bd:rgba(26,95,212,.07);--bb:rgba(26,95,212,.2);
   --border:rgba(0,140,120,.10);--border2:rgba(0,140,120,.22);
-  --f:'Syne',sans-serif;--fm:'Syne',sans-serif;
+  --f:Arial,Helvetica,'Segoe UI',sans-serif;--fm:Arial,Helvetica,'Segoe UI',sans-serif;
   --nav-bg:rgba(255,255,255,.92);
   --card-bg:#fff;--card-shadow:0 8px 40px rgba(0,0,0,.08);
   --input-bg:#fff;--loader-bg:rgba(255,255,255,.85);
@@ -63,11 +62,11 @@ body{font-family:var(--f);background:var(--bg);color:var(--fg);-webkit-font-smoo
 @keyframes barin{from{width:0%}}
 @keyframes tpulse{0%,100%{box-shadow:0 0 0 0 rgba(200,120,0,.35)}50%{box-shadow:0 0 0 6px rgba(200,120,0,0)}}
 body::after{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.015'/%3E%3C/svg%3E")}
-.gridbg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse 80% 80% at 65% 35%,black 0%,transparent 70%);mask-image:radial-gradient(ellipse 80% 80% at 65% 35%,black 0%,transparent 70%)}
+.gridbg{display:none!important}
 nav{position:fixed;top:0;left:0;right:0;z-index:500;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 44px;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-.navlogo{display:flex;align-items:center;gap:8px;cursor:pointer;text-decoration:none}
-.navlogo-icon{width:42px;height:42px;flex-shrink:0}
-.navlogo-name{font-size:20px;font-weight:800;letter-spacing:-.03em;color:var(--fg);line-height:1}
+.navlogo{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.navlogo-icon{width:38px;height:38px;flex-shrink:0;display:block;object-fit:contain}
+.navlogo-name{font-size:22px;font-weight:800;color:var(--fg);line-height:1;display:inline-flex;align-items:center;white-space:nowrap}
 .navlogo-name b{color:var(--teal);font-weight:800}
 .navlinks{display:flex;gap:2px;list-style:none}
 .navlinks a{padding:7px 14px;border-radius:7px;font-size:13px;font-weight:600;color:var(--fg2);cursor:pointer;transition:.15s;text-decoration:none}
@@ -265,12 +264,24 @@ footer{padding:36px 44px;border-top:1px solid var(--border);background:var(--bg)
 .fmt{padding:3px 9px;border-radius:100px;font-family:var(--fm);font-size:9px;background:var(--bg3);border:1px solid var(--border2);color:var(--fg3);letter-spacing:.04em}
 .prevbar{display:none;align-items:center;gap:12px;margin-top:10px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:11px 14px}
 .prevbar.on{display:flex}
-.prev-thumb{width:48px;height:48px;object-fit:cover;border-radius:7px}
+.prev-thumb{width:100%;height:min(42vh,360px);min-height:260px;object-fit:contain;border-radius:10px;background:var(--bg);border:1px solid var(--border)}
 .prev-icon{width:48px;height:48px;border-radius:7px;display:flex;align-items:center;justify-content:center}
 .prev-name{font-size:13px;font-weight:700;flex:1}
 .prev-size{font-family:var(--fm);font-size:11px;color:var(--fg3)}
 .prev-rm{background:none;border:none;color:var(--fg3);cursor:pointer;font-size:18px;transition:.15s}
 .prev-rm:hover{color:var(--red)}
+.media-preview{position:relative;display:none;flex-direction:column;align-items:stretch;gap:12px;padding:14px;overflow:hidden}
+.media-preview.on{display:flex}
+.media-preview .media-meta{display:flex;align-items:center;gap:12px;width:100%}
+.prev-video{width:100%;height:min(42vh,360px);min-height:260px;object-fit:contain;border-radius:10px;background:#000;border:1px solid var(--border)}
+.media-preview::before{content:'';position:absolute;width:58px;height:58px;border:3px solid rgba(255,255,255,.9);border-radius:50%;top:30px;left:24px;z-index:2;box-shadow:0 10px 30px rgba(0,0,0,.22);animation:magnifySweep 3.2s ease-in-out infinite;pointer-events:none}
+.media-preview::after{content:'';position:absolute;width:24px;height:4px;background:rgba(255,255,255,.9);border-radius:999px;top:83px;left:73px;z-index:2;transform:rotate(45deg);transform-origin:left center;animation:magnifyHandle 3.2s ease-in-out infinite;pointer-events:none}
+@keyframes magnifySweep{0%,100%{transform:translate(0,0) scale(.85);opacity:.35}45%{transform:translate(calc(100% + 120px),120px) scale(1);opacity:.9}70%{transform:translate(45%,40px) scale(.92);opacity:.65}}
+@keyframes magnifyHandle{0%,100%{transform:translate(0,0) rotate(45deg) scale(.85);opacity:.35}45%{transform:translate(calc(100% + 120px),120px) rotate(45deg) scale(1);opacity:.9}70%{transform:translate(45%,40px) rotate(45deg) scale(.92);opacity:.65}}
+.coming-soon-panel{min-height:240px;border:1.5px dashed var(--border2);border-radius:12px;background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:28px;color:var(--fg2)}
+.coming-soon-panel h3{font-size:20px;font-weight:800;color:var(--fg);margin:0}
+.coming-soon-panel p{font-size:13px;color:var(--fg3);max-width:280px;line-height:1.6}
+.coming-soon-tag{display:inline-flex;align-items:center;border-radius:100px;border:1px solid var(--ab);background:var(--ad);color:var(--amber);font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px}
 .txta{width:100%;flex:1;resize:none;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:15px;font-family:var(--f);font-size:14px;color:var(--fg);outline:none;min-height:240px;transition:.18s;line-height:1.6}
 .txta:focus{border-color:var(--tb)}
 .txta::placeholder{color:var(--fg3)}
@@ -451,7 +462,6 @@ footer{padding:36px 44px;border-top:1px solid var(--border);background:var(--bg)
 </style>
 </head>
 <body>
-<div class="gridbg"></div>
 <div id="toasts"></div>
 <div id="loader"><div class="spin"></div><p id="loader-msg" style="font-size:13px;color:var(--fg3)">Loading…</p></div>
 
@@ -487,7 +497,7 @@ footer{padding:36px 44px;border-top:1px solid var(--border);background:var(--bg)
       <p style="font-size:22px;font-weight:700;color:var(--fg);letter-spacing:-.02em;margin-bottom:14px;animation:fadeup .6s .12s ease both">Restoring trust in the age of AI.</p>
       <p class="hero-sub">Upload any image, video, document, or text. Check AI gives you an instant verdict — protecting you from deepfakes, AI fraud, and synthetic content.</p>
       <div class="hero-btns">
-        <button class="btn btn-teal btn-lg" onclick="go('detect')">Start Detection</button>
+        <button class="btn btn-teal btn-lg" onclick="go('login')">Start Detection</button>
         <button class="btn btn-ghost btn-lg" onclick="go('api')">View API Docs</button>
       </div>
     </div>
@@ -517,7 +527,7 @@ footer{padding:36px 44px;border-top:1px solid var(--border);background:var(--bg)
     </div>
   </div>
   <div class="howsec"><div class="how-inner"><div class="howsteps"><div><div class="slabel">How Check AI Works</div><h2 class="stitle" style="font-size:clamp(26px,3.5vw,44px)">From doubt to<br><span style="color:var(--teal)">certainty</span> in seconds</h2></div><div class="step"><div class="stepn">01</div><div class="stepb"><h3>Upload anything</h3><p>Drop an image, video, or paste any text. Check AI accepts all common formats.</p></div></div><div class="step"><div class="stepn">02</div><div class="stepb"><h3>Multi-signal forensic scan</h3><p>Our engine runs parallel checks — metadata, pixel patterns, compression artifacts, AI signatures — simultaneously.</p></div></div><div class="step"><div class="stepn">03</div><div class="stepb"><h3>Truth Meter™ verdict</h3><p>Receive a live-animated Truth Meter™ score with a clear label and full signal breakdown. Then explore exactly how we think.</p></div></div></div><div class="scan-demo"><div class="sdlabel">Analyzing — profile_photo.jpg</div><div class="srow"><span class="srl">Metadata chain</span><div class="sbw"><div class="sbf sf-g" style="width:94%;animation-delay:.1s"></div></div><span class="spc">94%</span></div><div class="srow"><span class="srl">Pixel integrity</span><div class="sbw"><div class="sbf sf-g" style="width:88%;animation-delay:.25s"></div></div><span class="spc">88%</span></div><div class="srow"><span class="srl">GAN fingerprint</span><div class="sbw"><div class="sbf sf-r" style="width:91%;animation-delay:.4s"></div></div><span class="spc">91%</span></div><div class="srow"><span class="srl">Face consistency</span><div class="sbw"><div class="sbf sf-a" style="width:43%;animation-delay:.55s"></div></div><span class="spc">43%</span></div><div class="srow"><span class="srl">Artifact presence</span><div class="sbw"><div class="sbf sf-r" style="width:78%;animation-delay:.7s"></div></div><span class="spc">78%</span></div><div class="vrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg><div><div class="vrow-l">AI Generated — Deepfake Detected</div><div class="vrow-s">91% confidence · 5 signals · 1.2s</div></div></div></div></div></div>
-  <div class="statsec"><div class="statgrid"><div class="si"><div class="sn">97<em class="sne">.3%</em></div><div class="sl">Detection accuracy across all content types</div></div><div class="si"><div class="sn"><em class="sne">&lt;</em>2s</div><div class="sl">Average analysis time per submission</div></div><div class="si"><div class="sn">4<em class="sne">+</em></div><div class="sl">Content types: image, video, document, text</div></div><div class="si"><div class="sn">0s</div><div class="sl">Data retention — files never stored</div></div></div></div>
+  <div class="statsec"><div class="statgrid"><div class="si"><div class="sn">97<em class="sne">.3%</em></div><div class="sl">Detection accuracy across all content types</div></div><div class="si"><div class="sn"><em class="sne">&lt;</em>2s</div><div class="sl">Average analysis time per submission</div></div><div class="si"><div class="sn">4<em class="sne">+</em></div><div class="sl">Content types: image, video, text, news</div></div><div class="si"><div class="sn">0s</div><div class="sl">Data retention — files never stored</div></div></div></div>
   <div class="featsec"><div class="slabel">Capabilities</div><h2 class="stitle">Every format. <span style="color:var(--teal)">Every signal.</span></h2><div class="featgrid"><div class="feat"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><h3>Image Detection</h3><p>AI-generated and deepfake images detected with pixel-level precision and GAN fingerprinting.</p></div><div class="feat"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><h3>Video Analysis</h3><p>Frame-by-frame deepfake detection, face-swap checks, and audio-visual sync analysis.</p></div><div class="feat"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><h3>Document Verification</h3><p>Detect forged PDFs, AI-filled forms, and manipulated certificates including fake Aadhaar and PAN.</p></div><div class="feat"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div><h3>Text Origin</h3><p>Identify AI-written content across ChatGPT, Gemini, Claude, and other major models.</p></div><div class="feat"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><h3>Truth Meter™ Score</h3><p>Live animated gauge showing your 0–100 authenticity score with clear human/uncertain/AI verdict.</p></div><div class="feat"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Zero Data Retention</h3><p>All content processed in-memory and deleted immediately. Your files never touch our storage.</p></div></div></div>
   <div class="ctasec"><div class="ctacard"><h2>Stop trusting what you cannot verify.</h2><p>Protect yourself and your business with professional AI content detection.</p><div class="ctabtns"><button class="btn btn-teal btn-xl" onclick="go('signup')">Create Account</button><button class="btn btn-ghost btn-xl" onclick="go('pricing')">View Pricing</button></div></div></div>
   <!-- CONTACT US -->
@@ -583,16 +593,16 @@ footer{padding:36px 44px;border-top:1px solid var(--border);background:var(--bg)
   <div class="dhero">
     <div class="chip" style="display:inline-flex"><span class="chipdot"></span>Powered by Forensic AI</div>
     <h1>Analyze any content</h1>
-    <p>Upload an image, video, document, or paste text. Get an instant Truth Meter™ score with full signal breakdown and AI thinking reveal.</p>
+    <p>Upload an image, video, news item, document, or paste text. Get an instant Truth Meter™ score with full signal breakdown and AI thinking reveal.</p>
   </div>
   <div class="dmain"><div class="dinner">
     <div class="rlbanner" id="rlbanner"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg><p id="rlmsg"><strong>Daily limit reached.</strong> <a onclick="go('signup')" style="color:var(--teal);cursor:pointer">Sign up</a> for more scans.</p></div>
     <div class="dtabs">
       <div class="dtab on" id="tab-img" onclick="setType('img')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Image</div>
-      <div class="dtab" id="tab-vid" onclick="setType('vid')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>Video <span class="dtab-beta">Beta</span></div>
-      <div class="dtab" id="tab-doc" onclick="setType('doc')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Document</div>
+      <div class="dtab" id="tab-vid" onclick="setType('vid')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>Video</div>
+      <div class="dtab" id="tab-doc" onclick="setType('doc')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Document <span class="dtab-beta">Coming Soon</span></div>
       <div class="dtab" id="tab-txt" onclick="setType('txt')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>Text</div>
-      <div class="dtab" id="tab-aud" onclick="setType('aud')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>Audio <span class="dtab-beta">Beta</span></div>
+      <div class="dtab" id="tab-news" onclick="setType('news')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M4 4.5A2.5 2.5 0 016.5 2H20v20H6.5A2.5 2.5 0 014 19.5z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/></svg>News</div><div class="dtab" id="tab-aud" onclick="setType('aud')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>Audio</div>
     </div>
     <div class="dws">
       <div class="dwshead"><span class="dwshead-t">Detection Workspace</span><div style="display:flex;align-items:center;gap:7px"><div style="width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s ease infinite"></div><span style="font-family:var(--fm);font-size:10px;color:var(--teal);letter-spacing:.07em;text-transform:uppercase">Live</span></div></div>
@@ -600,16 +610,14 @@ footer{padding:36px 44px;border-top:1px solid var(--border);background:var(--bg)
         <div class="dinput">
           <div id="in-img">
             <div class="dropz" id="dz-img"><input type="file" id="fi-img" accept="image/jpeg,image/png,image/webp,image/gif"><div class="dz-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><div class="dz-t">Drop image here</div><div class="dz-s">or click to browse</div><div class="dz-fmts"><span class="fmt">JPG</span><span class="fmt">PNG</span><span class="fmt">WEBP</span><span class="fmt">GIF</span></div></div>
-            <div class="prevbar" id="pv-img"><img class="prev-thumb" id="pv-img-thumb" src="" alt=""><div style="flex:1"><div class="prev-name" id="pv-img-name"></div><div class="prev-size" id="pv-img-size"></div></div><button class="prev-rm" onclick="clrFile('img')">×</button></div>
+            <div class="prevbar media-preview" id="pv-img"><img class="prev-thumb" id="pv-img-thumb" src="" alt=""><div class="media-meta"><div style="flex:1"><div class="prev-name" id="pv-img-name"></div><div class="prev-size" id="pv-img-size"></div></div><button class="prev-rm" onclick="clrFile('img')">&times;</button></div></div>
           </div>
           <div id="in-vid" style="display:none;position:relative">
             <div class="dropz" id="dz-vid"><input type="file" id="fi-vid" accept="video/mp4,video/webm,video/quicktime,video/x-msvideo,video/avi"><div class="dz-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><div class="dz-t">Drop video here</div><div class="dz-s">AI-generated video &amp; deepfake detection</div><div class="dz-fmts"><span class="fmt">MP4</span><span class="fmt">MOV</span><span class="fmt">WEBM</span><span class="fmt">AVI</span></div></div>
-            <div class="prevbar" id="pv-vid"><div class="prev-icon" style="background:var(--bd);color:var(--blue)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><div style="flex:1"><div class="prev-name" id="pv-vid-name"></div><div class="prev-size" id="pv-vid-size"></div></div><button class="prev-rm" onclick="clrFile('vid')">×</button></div>
+            <div class="prevbar media-preview" id="pv-vid"><video class="prev-video" id="pv-vid-thumb" controls muted playsinline></video><div class="media-meta"><div style="flex:1"><div class="prev-name" id="pv-vid-name"></div><div class="prev-size" id="pv-vid-size"></div></div><button class="prev-rm" onclick="clrFile('vid')">&times;</button></div></div>
           </div>
-          <div id="in-doc" style="display:none;position:relative">
-            <div class="dropz" id="dz-doc"><input type="file" id="fi-doc" accept=".pdf,.doc,.docx,.txt,text/plain,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"><div class="dz-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="dz-t">Drop document here</div><div class="dz-s">AI-generated &amp; plagiarism detection via Copyleaks</div><div class="dz-fmts"><span class="fmt">PDF</span><span class="fmt">DOCX</span><span class="fmt">TXT</span></div></div>
-            <div class="prevbar" id="pv-doc"><div class="prev-icon" style="background:var(--ad);color:var(--amber)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div style="flex:1"><div class="prev-name" id="pv-doc-name"></div><div class="prev-size" id="pv-doc-size"></div></div><button class="prev-rm" onclick="clrFile('doc')">×</button></div>
-          </div>
+          <div id="in-doc" style="display:none;position:relative"><div class="coming-soon-panel"><span class="coming-soon-tag">Coming Soon</span><h3>Document Detection</h3><p>Document analysis is being prepared and will be available soon.</p></div></div>
+          <div id="in-news" style="display:none;position:relative"><div class="coming-soon-panel"><span class="coming-soon-tag">Coming Soon</span><h3>News Detection</h3><p>News authenticity and misinformation detection is coming soon.</p></div></div>
           <div id="in-txt" style="display:none;flex-direction:column;gap:7px">
             <textarea class="txta" id="txta" placeholder="Paste any text here — emails, articles, messages, documents — to check if it was written by AI…" maxlength="10000"></textarea>
             <div class="charcnt"><span id="charcnt">0</span>/10000</div>
@@ -720,8 +728,8 @@ footer{padding:36px 44px;border-top:1px solid var(--border);background:var(--bg)
 
 <!-- ABOUT PAGE -->
 <div class="pg" id="pg-about">
-  <div class="abouthero"><div class="slabel" style="margin-bottom:12px">About Check AI</div><h1>Built for India.<br><span style="color:var(--teal)">Built to protect.</span></h1><p>With deepfakes and AI-generated fraud reaching every corner of India, Check AI was built as the definitive tool for content authenticity — free, fast, and private.</p><div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn-teal btn-lg" onclick="go('detect')">Start Detection</button><button class="btn btn-ghost btn-lg" onclick="go('signup')">Create Account</button></div></div>
-  <div class="aboutgrid"><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><h3>Made in India</h3><p>Built by Indians for Indians. We understand the local context — Aadhaar fraud, PAN forgery, and WhatsApp scams targeting Indian users daily.</p></div><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Zero Data Retention</h3><p>Your files are processed in-memory and deleted immediately. We never store your images, videos, or documents.</p></div><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><h3>Forensic AI Engine</h3><p>We use one of the world's most accurate AI content detection platforms — not black-box algorithms.</p></div><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><h3>Accessible Detection</h3><p>Designed to be fast and simple — AI detection should be accessible to individuals and businesses alike.</p></div><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h3>Multi-Format Support</h3><p>Images, videos, documents, and text — four content types, one unified detection engine.</p></div><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div><h3>REST API</h3><p>Integrate Check AI into your own products. Perfect for media companies, HRtech, fintechs, and legal firms.</p></div></div>
+  <div class="abouthero"><div class="slabel" style="margin-bottom:12px">About Check AI</div><h1>Built for India.<br><span style="color:var(--teal)">Built to protect.</span></h1><p>With deepfakes and AI-generated fraud reaching every corner of India, Check AI was built as the definitive tool for content authenticity — free, fast, and private.</p><div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn-teal btn-lg" onclick="go('login')">Start Detection</button><button class="btn btn-ghost btn-lg" onclick="go('signup')">Create Account</button></div></div>
+  <div class="aboutgrid"><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><h3>Made in India</h3><p>Built by Indians for Indians. We understand the local context — Aadhaar fraud, PAN forgery, and WhatsApp scams targeting Indian users daily.</p></div><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Zero Data Retention</h3><p>Your files are processed in-memory and deleted immediately. We never store your images, videos, or documents.</p></div><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><h3>Forensic AI Engine</h3><p>We use one of the world's most accurate AI content detection platforms — not black-box algorithms.</p></div><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><h3>Accessible Detection</h3><p>Designed to be fast and simple — AI detection should be accessible to individuals and businesses alike.</p></div><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h3>Multi-Format Support</h3><p>Images, videos, text, and upcoming news/document checks — four content types, one unified detection engine.</p></div><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div><h3>REST API</h3><p>Integrate Check AI into your own products. Perfect for media companies, HRtech, fintechs, and legal firms.</p></div></div>
   <footer><div class="footer-in"><p class="fcopy">© 2026 Check AI Technologies · check ai · Made in India 🇮🇳</p><div class="flinks"><a onclick="go('detect')">Detect</a><a onclick="go('api')">API</a><a onclick="go('pricing')">Pricing</a><a onclick="go('about')">About</a><a onclick="go('contact')">Contact</a><a onclick="go('privacy')">Privacy Policy</a><a onclick="go('terms')">Terms of Service</a></div><div class="footer-support"><span class="footer-support-label">Support</span><span class="footer-support-sep">·</span><a href="/cdn-cgi/l/email-protection#74070104041b060034171c11171f151d5a1d1a" class="footer-support-link"><span class="__cf_email__" data-cfemail="03707673736c717743606b666068626a2d6a6d">[email&#160;protected]</span></a></div></div></footer>
 </div>
 
@@ -830,7 +838,6 @@ footer{padding:36px 44px;border-top:1px solid var(--border);background:var(--bg)
 
 <!-- PRIVACY POLICY PAGE -->
 <div class="pg" id="pg-privacy">
-  <div class="gridbg"></div>
   <div class="legal-wrap" style="position:relative;z-index:2">
     <div class="chip" style="display:inline-flex;margin-bottom:20px"><span class="chipdot"></span>Legal</div>
     <h1>Privacy Policy</h1>
@@ -854,7 +861,6 @@ footer{padding:36px 44px;border-top:1px solid var(--border);background:var(--bg)
 
 <!-- TERMS OF SERVICE PAGE -->
 <div class="pg" id="pg-terms">
-  <div class="gridbg"></div>
   <div class="legal-wrap" style="position:relative;z-index:2">
     <div class="chip" style="display:inline-flex;margin-bottom:20px"><span class="chipdot"></span>Legal</div>
     <h1>Terms of Service</h1>
@@ -1091,7 +1097,7 @@ async function syncUserUsage() {
 /* ══ DETECT TYPE SWITCHING ══ */
 function setType(t) {
   CURTYPE = t; CURFILE = null;
-  ['img','vid','doc','txt','aud'].forEach(x => {
+  ['img','vid','doc','news','txt','aud'].forEach(x => {
     document.getElementById('tab-' + x)?.classList.toggle('on', x === t);
     const inp = document.getElementById('in-' + x);
     if (inp) inp.style.display = (x === t) ? (x === 'txt' ? 'flex' : 'block') : 'none';
@@ -1104,8 +1110,8 @@ function clrFile(t) {
   CURFILE = null;
   const fi = document.getElementById('fi-' + t);
   if (fi) fi.value = '';
-  document.getElementById('dz-' + t).style.display = '';
-  document.getElementById('pv-' + t).classList.remove('on');
+  if (document.getElementById('dz-' + t)) document.getElementById('dz-' + t).style.display = '';
+  document.getElementById('pv-' + t)?.classList.remove('on');
   document.getElementById('scanbtn').disabled = true;
   resetResult();
 }
@@ -1131,6 +1137,10 @@ function initFileInputs() {
     document.getElementById('pv-vid').classList.add('on');
     document.getElementById('pv-vid-name').textContent = file.name;
     document.getElementById('pv-vid-size').textContent = fmtSz(file.size);
+    const videoUrl = URL.createObjectURL(file);
+    const video = document.getElementById('pv-vid-thumb');
+    video.src = videoUrl;
+    video.load();
     document.getElementById('scanbtn').disabled = false;
   });
   setupDrop('doc', file => {
@@ -1183,6 +1193,7 @@ async function runScan() {
   try {
     const token = await getToken();
     let result;
+    if (['doc','news'].includes(CURTYPE)) { toast('Coming soon.', 'warn'); setState('idle'); btn.disabled = true; return; }
     if (CURTYPE === 'txt') {
       const text = document.getElementById('txta').value.trim();
       if (!text || text.length < 1) { toast('Please enter some text to analyze.', 'err'); setState('idle'); btn.disabled = false; return; }
