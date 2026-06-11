@@ -898,7 +898,7 @@ footer{padding:36px 44px;border-top:1px solid var(--border);background:var(--bg)
 'use strict';
 
 const CFG = {
-  API_BASE: 'https://api.checkai.in',
+  API_BASE: (location.hostname === '127.0.0.1' || location.hostname === 'localhost') ? 'http://localhost:3001' : 'https://api.checkai.in',
   FIREBASE: {
     apiKey:            "AIzaSyA7w9tjlV5ly4I_Rqm8ZsTyDbJI6gfOleQ",
     authDomain:        "checkai-4bcf5.firebaseapp.com",
