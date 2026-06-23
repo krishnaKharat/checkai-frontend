@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/png" href="./favicon.png">
-
-<link rel="shortcut icon" href="./favicon.png">
-
-<link rel="apple-touch-icon" href="./favicon.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Check AI — Is it Real? Find Out Now.</title>
-<link rel="icon" type="image/png" href="1782198979683_Stylized_brain_and_checkmark_logo__1_.png">
-<link rel="apple-touch-icon" href="1782198979683_Stylized_brain_and_checkmark_logo__1_.png">
+<link rel="icon" type="image/png" href="./favicon.png">
+<link rel="shortcut icon" href="./favicon.png">
+<link rel="apple-touch-icon" href="./favicon.png">
 <script>try{if(localStorage.getItem('cai_theme')==='dark')document.documentElement.classList.add('dark');}catch(e){}</script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
@@ -719,14 +715,48 @@ transform:translateY(-2px);
 }
 
 @media (max-width:768px){
-  html,body{overflow-x:hidden;width:100%;}
+  /* Prevent horizontal scroll */
+  body{overflow-x:hidden;}
+  html,body{width:100%;}
+
+  /* Force dark background so neural network is visible */
+  html,body{background:#000!important;overflow-x:hidden;}
+
+  /* Neural network canvas — full screen, above background */
+  canvas,#network,#particles,.bg,.neural,#nn-canvas{
+    display:block!important;
+    position:fixed!important;
+    top:0!important;
+    left:0!important;
+    width:100vw!important;
+    height:100vh!important;
+    opacity:.9!important;
+    z-index:1!important;
+    pointer-events:none!important;
+  }
+
+  /* All page sections transparent so canvas shows through */
+  .pg,section,.hero,.about,.cards,.container,.nav,.navbar{
+    background:transparent!important;
+    position:relative;
+    z-index:5;
+  }
+
+  /* Hamburger always visible */
+  .menu,.hamburger,.nav-burger{
+    display:flex!important;
+    visibility:visible!important;
+    opacity:1!important;
+    z-index:1001;
+  }
+
+  /* Page containers */
   .pg{width:100vw;max-width:100%;padding-left:20px;padding-right:20px;box-sizing:border-box;}
-  canvas{width:100%!important;height:100%!important;}
-  .nav,.hero,.cards,.blog-grid{width:100%;margin:auto;}
+  .hero,.cards,.blog-grid{width:100%;margin:auto;}
   .cards,.blog-grid{grid-template-columns:1fr;}
   img{max-width:100%;height:auto;object-fit:contain;}
 
-  /* Fix layout shift left — ensure page sections are contained */
+  /* Section padding */
   .hero{padding:100px 20px 48px;box-sizing:border-box;}
   .qstrip{padding:0 20px 60px;box-sizing:border-box;}
   .qrow{grid-template-columns:1fr 1fr;gap:10px;}
@@ -748,19 +778,76 @@ transform:translateY(-2px);
   .aboutgrid{grid-template-columns:1fr!important;}
   .legal-wrap{padding:100px 20px 60px;}
   .cform-2col{grid-template-columns:1fr;}
+}
+/* ══ BLOG SYSTEM ══ */
+.bloghero{padding:110px 44px 54px;text-align:center;position:relative;z-index:5}
+.bloghero h1{font-size:clamp(36px,5vw,64px);font-weight:800;letter-spacing:-.05em;line-height:1.3;margin-bottom:20px;padding-bottom:20px;overflow:visible;background:linear-gradient(135deg,#f97316 0%,#fb923c 60%,var(--amber) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.bloghero p{font-size:16px;color:var(--fg2);max-width:480px;margin:0 auto;line-height:1.65;overflow:visible;word-wrap:break-word;text-align:center}
+.blog-grid{max-width:1100px;margin:0 auto;padding:0 44px 100px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative;z-index:5}
+.bcard{background:var(--card-bg);border:1px solid var(--border2);border-radius:20px;box-shadow:var(--card-shadow);overflow:hidden;cursor:pointer;transition:.22s;display:flex;flex-direction:column;position:relative}
+.bcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#f97316,#fb923c,var(--amber));opacity:0;transition:.22s}
+.bcard:hover{transform:translateY(-4px);border-color:var(--tb);box-shadow:0 16px 56px rgba(249,115,22,.15)}
+.bcard:hover::before{opacity:1}
+.bcard-img{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,var(--bg3) 0%,var(--bg4) 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0}
+.bcard-img-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#f97316,var(--amber));display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px}
+.bcard-body{padding:24px 26px 28px;display:flex;flex-direction:column;flex:1}
+.bcard-cat{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:10px}
+.bcard-title{font-size:18px;font-weight:800;letter-spacing:-.03em;line-height:1.3;margin-bottom:10px;color:var(--fg)}
+.bcard-sub{font-size:13px;color:var(--fg2);line-height:1.7;flex:1}
+.bcard-meta{display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}
+.bcard-meta-dot{width:5px;height:5px;border-radius:50%;background:var(--fg3);flex-shrink:0}
+.bcard-meta span{font-size:11px;color:var(--fg3)}
 
-  /* Neural network canvas — ensure full viewport coverage and visibility */
-  #nn-canvas{
-    position:fixed;
-    top:0;left:0;
-    width:100vw!important;
-    height:100vh!important;
-    pointer-events:none;
-    z-index:0;
-  }
+/* Article pages */
+.article-wrap{max-width:780px;margin:0 auto;padding:100px 44px 100px;position:relative;z-index:5}
+.article-back{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--fg2);cursor:pointer;border:1px solid var(--border2);border-radius:100px;padding:7px 16px;background:var(--card-bg);transition:.18s;margin-bottom:40px;text-decoration:none}
+.article-back:hover{color:var(--teal);border-color:var(--tb);background:var(--td)}
+.article-cat{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:14px;display:block}
+.article-title{font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-.045em;line-height:1.07;margin-bottom:20px;background:linear-gradient(135deg,#f97316 0%,#fb923c 60%,var(--amber) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;padding-bottom:.12em}
+.article-meta{display:flex;align-items:center;gap:14px;margin-bottom:32px;flex-wrap:wrap}
+.article-meta span{font-size:12px;color:var(--fg3)}
+.article-meta-sep{width:3px;height:3px;border-radius:50%;background:var(--fg3);flex-shrink:0}
+.article-author{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-bottom:36px}
+.article-author-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#f97316,var(--amber));display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;font-weight:800;flex-shrink:0}
+.article-author-name{font-size:14px;font-weight:700;color:var(--fg)}
+.article-author-role{font-size:12px;color:var(--fg3);margin-top:2px}
+.article-hero-img{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,var(--bg3) 0%,var(--bg4) 100%);border-radius:16px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;margin-bottom:44px;overflow:hidden;position:relative}
+.article-hero-img-inner{display:flex;flex-direction:column;align-items:center;gap:14px;opacity:.5}
+.article-hero-img-inner svg{color:var(--fg3)}
+.article-hero-img-inner span{font-size:12px;color:var(--fg3);letter-spacing:.06em;text-transform:uppercase}
+.article-body h2{font-size:22px;font-weight:800;letter-spacing:-.035em;margin:36px 0 12px;color:var(--fg)}
+.article-body h3{font-size:17px;font-weight:700;letter-spacing:-.025em;margin:28px 0 10px;color:var(--fg)}
+.article-body p{font-size:15px;color:var(--fg2);line-height:1.85;margin-bottom:18px}
+.article-body ul,.article-body ol{padding-left:22px;margin-bottom:18px}
+.article-body li{font-size:15px;color:var(--fg2);line-height:1.8;margin-bottom:6px}
+.article-body strong{color:var(--fg);font-weight:700}
+.article-body .callout{background:var(--td);border:1px solid var(--tb);border-radius:12px;padding:18px 22px;margin:24px 0;font-size:14px;color:var(--fg2);line-height:1.7}
+.article-body .callout strong{color:var(--teal)}
+.article-conclusion{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:28px 30px;margin-top:40px}
+.article-conclusion h3{font-size:17px;font-weight:800;letter-spacing:-.02em;margin-bottom:10px;color:var(--teal)}
+.article-conclusion p{font-size:14px;color:var(--fg2);line-height:1.8;margin:0}
+
+@media(max-width:768px){
+  .blog-grid{grid-template-columns:1fr;padding:0 20px 70px}
+  .bloghero{padding:100px 20px 40px}
+  .article-wrap{padding:90px 20px 70px}
+}
+/* ══ LEADERSHIP ══ */
+.leadership-sec{max-width:1100px;margin:0 auto;padding:0 44px 56px;position:relative;z-index:5}
+.leadership-sec h2{font-size:20px;font-weight:800;letter-spacing:-.03em;margin-bottom:20px;color:var(--fg)}
+.leadership-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.lcard{background:var(--card-bg);border:1px solid var(--border2);border-radius:16px;padding:22px 24px;display:flex;align-items:flex-start;gap:16px;box-shadow:var(--card-shadow);position:relative;overflow:hidden;transition:.22s}
+.lcard::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 0% 0%,rgba(249,115,22,.07),transparent);pointer-events:none}
+.lcard:hover{border-color:var(--tb);box-shadow:0 8px 32px rgba(249,115,22,.13);transform:translateY(-2px)}
+.lcard-avatar{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#f97316,var(--amber));display:flex;align-items:center;justify-content:center;color:#000;font-size:16px;font-weight:800;flex-shrink:0}
+.lcard-name{font-size:15px;font-weight:800;letter-spacing:-.02em;color:var(--fg);margin-bottom:3px}
+.lcard-role{font-size:11px;color:var(--teal);font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}
+.lcard-desc{font-size:13px;color:var(--fg2);line-height:1.65}
+@media(max-width:768px){
+  .leadership-grid{grid-template-columns:1fr}
+  .leadership-sec{padding:0 20px 44px}
 }
 </style>
-</head>
 <body>
 <div id="toasts"></div>
 <div id="loader"><div class="spin"></div><p id="loader-msg" style="font-size:13px;color:var(--fg3)">Loading…</p></div>
@@ -779,6 +866,7 @@ check<b>ai</b>
     <li><a id="nl-detect" onclick="go('detect')">Detect</a></li>
     <li><a id="nl-about" onclick="go('about')">About Us</a></li>
     <li><a id="nl-pricing" onclick="go('pricing')">Pricing</a></li>
+    <li><a id="nl-blogs" onclick="go('blogs')">Blogs</a></li>
 
   </ul>
   <div class="navr" id="navr">
@@ -794,6 +882,7 @@ check<b>ai</b>
   <a id="nl-mob-detect" class="navlinks-mobile" onclick="go('detect');closeMobileNav()">Detect</a>
   <a id="nl-mob-about" class="navlinks-mobile" onclick="go('about');closeMobileNav()">About Us</a>
   <a id="nl-mob-pricing" class="navlinks-mobile" onclick="go('pricing');closeMobileNav()">Pricing</a>
+  <a id="nl-mob-blogs" class="navlinks-mobile" onclick="go('blogs');closeMobileNav()">Blogs</a>
   <div class="nav-mobile-actions" id="navMobileActions">
     <button class="btn btn-ghost btn-sm" onclick="go('login');closeMobileNav()">Log in</button>
     <button class="btn btn-teal btn-sm" onclick="go('signup');closeMobileNav()">Sign up</button>
@@ -1043,6 +1132,27 @@ check<b>ai</b>
 <!-- ABOUT PAGE -->
 <div class="pg" id="pg-about">
   <div class="abouthero"><div class="slabel" style="margin-bottom:12px">About Check AI</div><h1>Built for the World.<br><span style="color:var(--teal)">Built to protect.</span></h1><p>With deepfakes and AI-generated fraud reaching every corner of the world, Check AI was built as the definitive tool for content authenticity — secure and trustable. Check AI instantly analyses images, videos, documents, and text to tell you whether content is real or AI-generated. It exists because trust in digital content is eroding — and people deserve a fast, reliable way to verify what they see. Every result is backed by forensic signals, not guesswork.</p><div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn-teal btn-lg" onclick="go('login')">Start Detection</button><button class="btn btn-ghost btn-lg" onclick="go('signup')">Create Account</button></div></div>
+  <div class="leadership-sec">
+    <h2>Leadership</h2>
+    <div class="leadership-grid">
+      <div class="lcard">
+        <div class="lcard-avatar">K</div>
+        <div>
+          <div class="lcard-name">Krishna Kharat</div>
+          <div class="lcard-role">Founder &amp; Research Lead</div>
+          <div class="lcard-desc">.</div>
+        </div>
+      </div>
+      <div class="lcard">
+        <div class="lcard-avatar">S</div>
+        <div>
+          <div class="lcard-name">Samarth Tapadiya</div>
+          <div class="lcard-role">Co-Founder &amp; Safety Researcher</div>
+          <div class="lcard-desc"></div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="aboutgrid"><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><h3>Made in India</h3><p>Built in India for the world. Check AI is designed to help people and organizations verify digital content globally — from deepfakes and AI fraud to manipulated media and misinformation.</p></div><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Zero Data Retention</h3><p>Your files are processed in-memory and deleted immediately. We never store your images, videos, or documents.</p></div><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><h3>Forensic AI Engine</h3><p>We use one of the world's most accurate AI content detection platforms — not black-box algorithms.</p></div><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><h3>Accessible Detection</h3><p>Designed to be fast and simple — AI detection should be accessible to individuals and businesses alike.</p></div><div class="acard"><div class="acard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h3>Multi-Format Support</h3><p>Images, videos, documents, text, audio, news, deepfakes, and AI-generated content — one unified detection engine.</p></div></div>
   <footer><div class="footer-in"><p class="fcopy">© 2026 Check AI Technologies · check ai · Made in India 🇮🇳</p><div class="flinks"><a onclick="go('detect')">Detect</a><a onclick="go('pricing')">Pricing</a><a onclick="go('about')">About</a><a onclick="go('contact')">Contact</a><a onclick="go('privacy')">Privacy Policy</a><a onclick="go('terms')">Terms of Service</a></div><div class="footer-support"><span class="footer-support-label">Support</span><span class="footer-support-sep">·</span><a href="/cdn-cgi/l/email-protection#74070104041b060034171c11171f151d5a1d1a" class="footer-support-link"><span class="__cf_email__" data-cfemail="03707673736c717743606b666068626a2d6a6d">[email&#160;protected]</span></a></div></div></footer>
 </div>
@@ -1200,6 +1310,226 @@ object-fit:contain;
   <footer><div class="footer-in"><p class="fcopy">© 2026 Check AI Technologies · check ai · Made in India 🇮🇳</p><div class="flinks"><a onclick="go('detect')">Detect</a><a onclick="go('pricing')">Pricing</a><a onclick="go('about')">About</a><a onclick="go('contact')">Contact</a><a onclick="go('privacy')">Privacy Policy</a><a onclick="go('terms')">Terms of Service</a></div><div class="footer-support"><span class="footer-support-label">Support</span><span class="footer-support-sep">·</span><a href="/cdn-cgi/l/email-protection#681b1d1818071a1c280b000d0b030901460106" class="footer-support-link"><span class="__cf_email__" data-cfemail="5b282e2b2b34292f1b38333e38303a32753235">[email&#160;protected]</span></a></div></div></footer>
 </div>
 
+<!-- ═══════════════════════ BLOGS PAGE ═══════════════════════ -->
+<div class="pg" id="pg-blogs">
+  <div class="bloghero">
+    <div class="chip" style="display:inline-flex;margin-bottom:20px"><span class="chipdot"></span>CheckAI Blog</div>
+    <h1>CheckAI Blog</h1>
+    <p>Insights on AI, Detection &amp; Digital Trust</p>
+  </div>
+  <div class="blog-grid">
+    <!-- Card 1 -->
+    <div class="bcard" onclick="go('blog-ai')">
+      <div class="bcard-img">
+        <div class="bcard-img-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        </div>
+      </div>
+      <div class="bcard-body">
+        <span class="bcard-cat">AI Detection</span>
+        <div class="bcard-title">How AI Detection Works</div>
+        <div class="bcard-sub">A deep dive into the science behind detecting AI-generated content — from neural fingerprints to frequency artifacts.</div>
+        <div class="bcard-meta">
+          <span>May 12, 2025</span>
+          <div class="bcard-meta-dot"></div>
+          <span>6 min read</span>
+          <div class="bcard-meta-dot"></div>
+          <span>Krishna Kharat</span>
+        </div>
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="bcard" onclick="go('blog-deepfake')">
+      <div class="bcard-img">
+        <div class="bcard-img-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+      </div>
+      <div class="bcard-body">
+        <span class="bcard-cat">Deepfake</span>
+        <div class="bcard-title">Can Humans Detect AI?</div>
+        <div class="bcard-sub">Research shows humans are barely better than chance at spotting AI-generated images. Here's why tools like CheckAI exist.</div>
+        <div class="bcard-meta">
+          <span>Apr 28, 2025</span>
+          <div class="bcard-meta-dot"></div>
+          <span>5 min read</span>
+          <div class="bcard-meta-dot"></div>
+          <span>Samarth Tapadiya</span>
+        </div>
+      </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="bcard" onclick="go('blog-updates')">
+      <div class="bcard-img">
+        <div class="bcard-img-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+      </div>
+      <div class="bcard-body">
+        <span class="bcard-cat">Updates</span>
+        <div class="bcard-title">CheckAI Beta Updates</div>
+        <div class="bcard-sub">What's new in the CheckAI beta — improved accuracy, new detection types, and what's coming next on our roadmap.</div>
+        <div class="bcard-meta">
+          <span>Jun 3, 2025</span>
+          <div class="bcard-meta-dot"></div>
+          <span>4 min read</span>
+          <div class="bcard-meta-dot"></div>
+          <span>Krishna Kharat</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer><div class="footer-in"><p class="fcopy">© 2026 Check AI Technologies · checkai.in · Made in India 🇮🇳</p><div class="flinks"><a onclick="go('detect')">Detect</a><a onclick="go('pricing')">Pricing</a><a onclick="go('about')">About</a><a onclick="go('blogs')">Blogs</a><a onclick="go('privacy')">Privacy</a><a onclick="go('terms')">Terms</a></div></div></footer>
+</div>
+
+<!-- ═══════════════════════ ARTICLE: HOW AI DETECTION WORKS ═══════════════════════ -->
+<div class="pg" id="pg-blog-ai">
+  <div class="article-wrap">
+    <a class="article-back" onclick="go('blogs')">← Blogs</a>
+    <span class="article-cat">AI Detection</span>
+    <h1 class="article-title">How AI Detection Works</h1>
+    <div class="article-meta">
+      <span>May 12, 2025</span>
+      <div class="article-meta-sep"></div>
+      <span>6 min read</span>
+      <div class="article-meta-sep"></div>
+      <span>Technology</span>
+    </div>
+    <div class="article-author">
+      <div class="article-author-avatar">K</div>
+      <div>
+        <div class="article-author-name">Krishna Kharat</div>
+        <div class="article-author-role">Founder &amp; Research Lead, CheckAI Technologies</div>
+      </div>
+    </div>
+    <div class="article-hero-img" style="background:none;border:none;border-radius:16px;overflow:hidden;margin-bottom:44px;">
+      <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80&auto=format&fit=crop" alt="AI forensic analysis — neural network visualization" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:16px;">
+    </div>
+    <div class="article-body">
+      <p>Every piece of AI-generated content leaves behind invisible fingerprints — subtle statistical patterns that differ from human-created work. Understanding these signatures is the foundation of modern AI detection technology.</p>
+      <h2>The Problem With the Human Eye</h2>
+      <p>The human visual system is optimised for natural scenes, faces, and environments shaped by millions of years of evolution. AI image generators, however, create content through a fundamentally different process — one that introduces artefacts invisible to casual inspection but detectable by trained models.</p>
+      <p>These artefacts appear in frequency space, in pixel-level noise patterns, and in the statistical distribution of colour values across an image. A human looking at a GAN-generated portrait might notice nothing unusual. A detection model analysing the same image at the spectral level will find the telltale signs immediately.</p>
+      <h2>Frequency Domain Analysis</h2>
+      <p>One of the most reliable signals for detecting AI-generated images is the frequency spectrum. When you apply a Fast Fourier Transform (FFT) to a real photograph, the resulting spectrum is smooth and follows a predictable power law. AI-generated images, by contrast, often show grid-like artefacts in the high-frequency components — a direct consequence of how convolutional layers and upsampling operations work.</p>
+      <div class="callout"><strong>Key insight:</strong> GAN upsampling operations create repeating spectral artefacts at frequencies corresponding to the upsampling factor. These are invisible to the eye but trivially detectable by a classifier trained on frequency data.</div>
+      <h2>Neural Fingerprints</h2>
+      <p>Every generative model — from Stable Diffusion to Midjourney to DALL-E — leaves a unique fingerprint in the images it creates. These fingerprints arise from architectural choices, training data, and post-processing pipelines. By training on diverse examples from each generator, detection models can not only flag content as AI-generated but also attribute it to a specific model family.</p>
+      <h2>Text and Language Models</h2>
+      <p>For AI-written text, detection takes a different approach. Language models generate text by predicting the most probable next token given the context. This produces text with characteristically low perplexity — it's statistically "too good", too coherent, too predictable compared to human writing which includes natural disfluencies, unusual word choices, and structural irregularities.</p>
+      <p>CheckAI's text detection engine measures multiple linguistic features in parallel: perplexity scores, burstiness patterns, vocabulary richness, and syntactic complexity distribution — combining them into a robust ensemble signal.</p>
+      <h2>Video and Audio Detection</h2>
+      <p>Deepfake video detection adds a temporal dimension. Beyond per-frame analysis, detectors look for inconsistencies in facial landmark motion, unnatural eye blink rates, lighting changes that don't match between face and background, and audio-visual synchronisation errors that emerge when a face is swapped but the audio is not.</p>
+      <h2>The Arms Race</h2>
+      <p>Detection is not a solved problem — it's an ongoing arms race. As generators improve, detectors must adapt. This is why CheckAI continuously retrains its models on fresh data, including outputs from the latest generation of image, video, and text models. Staying current is not optional; it's the core of what makes detection reliable.</p>
+      <div class="article-conclusion">
+        <h3>Conclusion</h3>
+        <p>AI detection works by exploiting the statistical, spectral, and linguistic differences between human and machine-generated content. While no single technique is perfect, a multi-modal ensemble approach — combining frequency analysis, neural fingerprinting, and linguistic modelling — delivers the accuracy levels needed for real-world trust decisions. CheckAI brings this technology to everyone, with no technical expertise required.</p>
+      </div>
+    </div>
+  </div>
+  <footer><div class="footer-in"><p class="fcopy">© 2026 Check AI Technologies · checkai.in · Made in India 🇮🇳</p><div class="flinks"><a onclick="go('detect')">Detect</a><a onclick="go('blogs')">Blogs</a><a onclick="go('privacy')">Privacy</a><a onclick="go('terms')">Terms</a></div></div></footer>
+</div>
+
+<!-- ═══════════════════════ ARTICLE: CAN HUMANS DETECT AI ═══════════════════════ -->
+<div class="pg" id="pg-blog-deepfake">
+  <div class="article-wrap">
+    <a class="article-back" onclick="go('blogs')">← Blogs</a>
+    <span class="article-cat">Deepfake</span>
+    <h1 class="article-title">Can Humans Detect AI?</h1>
+    <div class="article-meta">
+      <span>Apr 28, 2025</span>
+      <div class="article-meta-sep"></div>
+      <span>5 min read</span>
+      <div class="article-meta-sep"></div>
+      <span>Research</span>
+    </div>
+    <div class="article-author">
+      <div class="article-author-avatar">S</div>
+      <div>
+        <div class="article-author-name">Samarth Tapadiya</div>
+        <div class="article-author-role">Co-Founder &amp; Safety Researcher, CheckAI Technologies</div>
+      </div>
+    </div>
+    <div class="article-hero-img" style="background:none;border:none;border-radius:16px;overflow:hidden;margin-bottom:44px;">
+      <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&q=80&auto=format&fit=crop" alt="Deepfake detection — synthetic media trust and safety" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:16px;">
+    </div>
+    <div class="article-body">
+      <p>A 2023 study published in <em>PLOS ONE</em> found that participants correctly identified AI-generated faces only 48.2% of the time — statistically indistinguishable from random guessing. The situation has only gotten more challenging since. In an era of photorealistic AI imagery, the human eye is simply not equipped for the task.</p>
+      <h2>Why Humans Struggle</h2>
+      <p>Our brains are wired to process faces with extraordinary sophistication, yet this same sophistication becomes a liability when confronted with AI-generated imagery. We look for the features we're trained to notice — odd teeth, strange hands, blurry backgrounds — but modern generative models have largely fixed these obvious tells.</p>
+      <p>What remains are subtle, almost imperceptible cues: a skin texture that's slightly too uniform, a catch-light in the eyes that doesn't match the ambient light, hair strands that flow in physically impossible directions. Most people, shown an image for a few seconds, simply won't notice.</p>
+      <h2>The Confidence Trap</h2>
+      <p>Perhaps more dangerously, research consistently shows that human confidence in detection is poorly calibrated. People who are most confident in their ability to spot deepfakes are often no more accurate than those who are uncertain — sometimes less so. Overconfidence leads to under-vigilance, which is exactly what bad actors count on.</p>
+      <div class="callout"><strong>Research finding:</strong> In studies where participants rated their confidence alongside their guesses, high-confidence incorrect identifications were nearly as common as high-confidence correct ones. Feeling sure is not the same as being right.</div>
+      <h2>What Humans Are Actually Good At</h2>
+      <p>Context clues, not visual analysis, are where humans add genuine value. People are good at asking: does this image make sense given what I know? Is this person likely to have said this? Does this scene match what I'd expect from this location or event? These higher-order reasoning skills complement, rather than replace, automated detection.</p>
+      <h2>The Case for Automated Detection</h2>
+      <p>Given these limitations, automated detection tools are not a luxury — they're a necessity. CheckAI analyses images, videos, and text across dozens of features simultaneously, in milliseconds, without fatigue, bias, or confidence miscalibration. It doesn't replace human judgement on context and meaning, but it handles the perceptual analysis that human vision simply isn't suited for.</p>
+      <h2>Building Media Literacy Anyway</h2>
+      <p>Even as we advocate for automated tools, media literacy remains important. Understanding that AI-generated content exists and is pervasive — even if you can't always spot it — changes how you engage with information. Healthy scepticism, source verification, and cross-referencing remain valuable habits, especially for high-stakes decisions.</p>
+      <div class="article-conclusion">
+        <h3>Conclusion</h3>
+        <p>Humans cannot reliably detect AI-generated content by eye alone. The research is clear, and the technology is only improving. The answer isn't to train human perception — it's to augment it with tools built specifically for this task. That's exactly what CheckAI is designed to do: give you the second opinion your eyes can't provide.</p>
+      </div>
+    </div>
+  </div>
+  <footer><div class="footer-in"><p class="fcopy">© 2026 Check AI Technologies · checkai.in · Made in India 🇮🇳</p><div class="flinks"><a onclick="go('detect')">Detect</a><a onclick="go('blogs')">Blogs</a><a onclick="go('privacy')">Privacy</a><a onclick="go('terms')">Terms</a></div></div></footer>
+</div>
+
+<!-- ═══════════════════════ ARTICLE: CHECKAI BETA UPDATES ═══════════════════════ -->
+<div class="pg" id="pg-blog-updates">
+  <div class="article-wrap">
+    <a class="article-back" onclick="go('blogs')">← Blogs</a>
+    <span class="article-cat">Updates</span>
+    <h1 class="article-title">CheckAI Beta Updates</h1>
+    <div class="article-meta">
+      <span>Jun 3, 2025</span>
+      <div class="article-meta-sep"></div>
+      <span>4 min read</span>
+      <div class="article-meta-sep"></div>
+      <span>Product</span>
+    </div>
+    <div class="article-author">
+      <div class="article-author-avatar">K</div>
+      <div>
+        <div class="article-author-name">Krishna Kharat</div>
+        <div class="article-author-role">Founder &amp; Research Lead, CheckAI Technologies</div>
+      </div>
+    </div>
+    <div class="article-hero-img" style="background:none;border:none;border-radius:16px;overflow:hidden;margin-bottom:44px;">
+      <img src="https://images.unsplash.com/photo-1633412802994-5c058f151b66?w=1200&q=80&auto=format&fit=crop" alt="AI verification and digital trust — CheckAI updates" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:16px;">
+    </div>
+    <div class="article-body">
+      <p>Since launching the CheckAI beta, we've been listening closely to user feedback, monitoring detection accuracy across real-world submissions, and shipping improvements as fast as we can test them. Here's a summary of what's changed and what's on the horizon.</p>
+      <h2>What's New</h2>
+      <h3>Improved Image Detection Accuracy</h3>
+      <p>Our image detection model has been retrained on an expanded dataset that includes outputs from Stable Diffusion 3, Midjourney v6, and DALL-E 3. Detection accuracy for AI-generated images has improved from 89.4% to <strong>97.3%</strong> in internal benchmarks — a significant jump that reflects both better training data and architectural improvements to our ensemble pipeline.</p>
+      <h3>Text Detection Engine v2</h3>
+      <p>The previous text detection engine struggled with short-form content and mixed human/AI text. Version 2 introduces a sliding-window analysis approach that evaluates text in overlapping segments, significantly improving performance on paragraphs of 50 words or fewer and on content that blends AI and human writing.</p>
+      <h3>News Verification Module</h3>
+      <p>We've added a dedicated news and claims verification module. Paste any headline, article excerpt, or social media post and CheckAI will cross-reference it against verified sources, flagging claims that lack corroboration or originate from known misinformation networks.</p>
+      <div class="callout"><strong>Beta milestone:</strong> Over 120,000 scans completed during the beta period. Thank you to every user who tested the platform and shared feedback — your submissions directly informed every update in this post.</div>
+      <h2>Bug Fixes</h2>
+      <ul>
+        <li>Fixed a race condition in the audio upload handler that caused silent failures on files larger than 20MB</li>
+        <li>Resolved an issue where the confidence percentage displayed incorrectly for borderline cases (48–52% range)</li>
+        <li>Corrected a localisation bug affecting date formatting for users outside India</li>
+        <li>Improved error messaging when the API is rate-limited, with clearer guidance on plan upgrade options</li>
+      </ul>
+      <h2>Coming Soon</h2>
+      <p>The next sprint focuses on three areas: <strong>document detection</strong> (currently showing "Coming Soon") will enter closed beta in July, with support for PDF and DOCX files. <strong>Video detection latency</strong> is being optimised — we're targeting a 40% reduction in average processing time for videos under 2 minutes. And we're working on an <strong>API dashboard</strong> that gives developers real-time usage analytics and per-key rate limit controls.</p>
+      <h2>Pricing Update</h2>
+      <p>The Pro plan remains at ₹829/month through the end of the beta period. When we exit beta, pricing will be reviewed, but all existing subscribers will be locked into their current rate for a minimum of 12 months as a thank-you for early support.</p>
+      <div class="article-conclusion">
+        <h3>Conclusion</h3>
+        <p>The beta has exceeded our expectations in both usage and feedback quality. We're moving fast, but we're moving carefully — every accuracy improvement is validated against held-out real-world data before it ships. If you have feature requests or have encountered an issue, reach out via the Contact page. We read everything.</p>
+      </div>
+    </div>
+  </div>
+  <footer><div class="footer-in"><p class="fcopy">© 2026 Check AI Technologies · checkai.in · Made in India 🇮🇳</p><div class="flinks"><a onclick="go('detect')">Detect</a><a onclick="go('blogs')">Blogs</a><a onclick="go('privacy')">Privacy</a><a onclick="go('terms')">Terms</a></div></div></footer>
+</div>
+
 <!-- ═══════════════════════ JAVASCRIPT ═══════════════════════ -->
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 'use strict';
@@ -1246,7 +1576,7 @@ function toggleTheme(){
 }
 
 /* ══ NAV ══ */
-const PAGES = ['home','detect','about','pricing','api','login','signup','profile','privacy','terms','contact'];
+const PAGES = ['home','detect','about','pricing','api','login','signup','profile','privacy','terms','contact','blogs','blog-ai','blog-deepfake','blog-updates'];
 
 function go(id) {
   if (id === 'profile' && !USER) { go('login'); return; }
@@ -2158,9 +2488,6 @@ document.addEventListener('DOMContentLoaded', () => {
 <canvas id="neuralBg" aria-hidden="true"></canvas>
 <script>
 (function(){
-  if(!window.matchMedia('(min-width:1025px)').matches) return;
-  if(window.matchMedia('(pointer:coarse)').matches) return;
-
   var canvas=document.createElement('canvas');
   canvas.id='neuralBg';
   canvas.style.cssText='position:fixed;inset:0;z-index:3;pointer-events:none;';
