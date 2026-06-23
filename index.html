@@ -133,6 +133,21 @@ animation:patchDrift 80s ease-in-out infinite,patchBreathe 16s ease-in-out infin
 @keyframes tpulse{0%,100%{box-shadow:0 0 0 0 rgba(200,120,0,.35)}50%{box-shadow:0 0 0 6px rgba(200,120,0,0)}}
 body::after{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.015'/%3E%3C/svg%3E")}
 .gridbg{display:none!important}
+/* ── Mobile Nav Fixes ── */
+@media (max-width:768px){
+  .menu,.hamburger,.nav-toggle,.mobile-toggle,.nav-burger{
+    display:flex !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    position:relative;
+    z-index:99999 !important;
+    pointer-events:auto !important;
+  }
+}
+nav,.navbar{
+  z-index:10000 !important;
+  position:fixed !important;
+}
 /* ── Premium Floating Navbar ── */
 nav{
   position:fixed;
@@ -743,11 +758,13 @@ transform:translateY(-2px);
   }
 
   /* Hamburger always visible */
-  .menu,.hamburger,.nav-burger{
+  .menu,.hamburger,.nav-toggle,.mobile-toggle,.nav-burger{
     display:flex!important;
     visibility:visible!important;
     opacity:1!important;
-    z-index:1001;
+    position:relative;
+    z-index:99999!important;
+    pointer-events:auto!important;
   }
 
   /* Page containers */
@@ -872,10 +889,10 @@ check<b>ai</b>
   <div class="navr" id="navr">
     <button class="btn btn-ghost btn-sm" onclick="go('login')">Log in</button>
     <button class="btn btn-teal btn-sm" onclick="go('signup')">Sign up</button>
-    <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" onclick="toggleMobileNav()">
-      <span></span><span></span><span></span>
-    </button>
   </div>
+  <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 <div class="nav-mobile-panel" id="navMobilePanel">
   <a id="nl-mob-home" class="navlinks-mobile act" onclick="go('home');closeMobileNav()">Home</a>
